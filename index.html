@@ -3,29 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Scroll World — The Scroll-Scrubbed Fly-Through Landing Page Engine</title>
-  <meta name="description" content="A continuous, seamless camera flight through generated isometric worlds, scrubbed purely by scroll position." />
+  <title>Pearl &amp; Co. — The World of Small-Batch Tea</title>
+  <meta name="description" content="Scroll to fly through the world of Pearl & Co. From terraced highland farms to your afternoon cup." />
 
   <!-- OpenGraph / Social Meta -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Scroll World — Fly-Through Landing Page Engine" />
-  <meta property="og:description" content="Continuous seamless camera flight through generated worlds, scrubbed by scroll position." />
+  <meta property="og:title" content="Pearl &amp; Co. — The Scroll World Landing Page" />
+  <meta property="og:description" content="One continuous connected camera flight through the world of Pearl & Co." />
   <meta property="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%239333EA'/><polygon points='50,20 80,75 20,75' fill='%23FEF08A'/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%237C69A5'/><ellipse cx='50' cy='60' rx='28' ry='18' fill='%23FAF5EF'/><rect x='44' y='32' width='12' height='10' rx='3' fill='%23FAF5EF'/><path d='M65 52 Q82 52 75 66' stroke='%23FAF5EF' stroke-width='6' fill='none'/><circle cx='50' cy='28' r='4' fill='%23FBBF24'/></svg>" />
 
   <style>
-    /* Theme tokens matching the scene colorways */
+    /* Theme tokens matching Pearl & Co. and the generated dioramas */
     :root, .sw-root {
       --sw-bg: #F5EDE0;
-      --sw-ink: #1F1926;
-      --sw-ink-soft: #63586C;
-      --sw-accent: #9333EA;
+      --sw-ink: #241D2B;
+      --sw-ink-soft: #6A6072;
+      --sw-accent: #8FB98A;
       --sw-font-display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Plus Jakarta Sans", system-ui, sans-serif;
       --sw-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
     }
 
-    /* Floating Skill & Dev Toolbar */
+    /* Floating HUD Controls */
     .hud-controls {
       position: fixed;
       bottom: 24px;
@@ -40,11 +40,11 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid rgba(0, 0, 0, 0.08);
-      color: #1F1926;
+      color: #241D2B;
       padding: 10px 18px;
       border-radius: 999px;
       font-size: 0.85rem;
@@ -59,13 +59,13 @@
       transform: translateY(-2px);
       background: #FFFFFF;
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-      border-color: rgba(147, 51, 234, 0.3);
+      border-color: rgba(124, 105, 165, 0.35);
     }
 
     .hud-btn--primary {
-      background: #1F1926;
+      background: #241D2B;
       color: #FFFFFF;
-      border-color: #1F1926;
+      border-color: #241D2B;
     }
 
     .hud-btn--primary:hover {
@@ -73,16 +73,30 @@
       color: #FFFFFF;
     }
 
-    /* Modal Sheet */
+    .hud-btn--video {
+      background: #7C69A5;
+      color: #FFFFFF;
+      border-color: #7C69A5;
+    }
+
+    .hud-btn--video:hover {
+      background: #6A588F;
+      color: #FFFFFF;
+    }
+
+    /* Modal Backdrop & Sheets */
     .sheet-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 12, 20, 0.45);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 12, 20, 0.5);
+      backdrop-filter: blur(10px);
       z-index: 200;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .sheet-backdrop.active {
@@ -91,25 +105,75 @@
     }
 
     .sheet-modal {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%) translateY(100%);
       width: min(92vw, 680px);
       max-height: 86vh;
       background: #FAF7F2;
-      border-radius: 28px 28px 0 0;
-      box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.2);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
       padding: 32px;
       overflow-y: auto;
-      z-index: 201;
-      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
       box-sizing: border-box;
       border: 1px solid rgba(0, 0, 0, 0.06);
     }
 
-    .sheet-backdrop.active .sheet-modal {
-      transform: translateX(-50%) translateY(0);
+    .video-modal {
+      width: min(94vw, 960px);
+      background: #000000;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+    }
+
+    .video-modal video {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 82vh;
+    }
+
+    .video-modal-header {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .video-modal-title {
+      color: #FFFFFF;
+      font-size: 0.95rem;
+      font-weight: 600;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 6px 14px;
+      border-radius: 999px;
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .video-close-btn {
+      background: rgba(0, 0, 0, 0.6);
+      color: #FFFFFF;
+      border: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.25rem;
+      backdrop-filter: blur(8px);
+      transition: background 0.2s;
+    }
+
+    .video-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
     }
 
     .sheet-header {
@@ -124,6 +188,7 @@
       font-size: 1.4rem;
       font-family: var(--sw-font-display);
       font-weight: 700;
+      color: #241D2B;
     }
 
     .sheet-close {
@@ -136,13 +201,13 @@
       place-items: center;
       cursor: pointer;
       font-size: 1.2rem;
-      color: #63586C;
+      color: #6A6072;
       transition: background 0.2s;
     }
 
     .sheet-close:hover {
       background: rgba(0, 0, 0, 0.12);
-      color: #1F1926;
+      color: #241D2B;
     }
 
     .cmd-box {
@@ -152,7 +217,6 @@
       border-radius: 14px;
       font-family: ui-monospace, Menlo, Consolas, monospace;
       font-size: 0.88rem;
-      position: relative;
       margin: 10px 0 20px;
       display: flex;
       justify-content: space-between;
@@ -205,14 +269,21 @@
   <div id="top"></div>
   <div id="world"></div>
 
-  <!-- Ambient Sound / HUD Floating Controls -->
+  <!-- HUD Controls -->
   <div class="hud-controls">
-    <button class="hud-btn" id="audioToggle" title="Toggle Atmospheric Audio">
+    <button class="hud-btn hud-btn--video" id="openVideoBtn" title="Watch Original Demo Video">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+      </svg>
+      <span>Watch Demo Video</span>
+    </button>
+
+    <button class="hud-btn" id="audioToggle" title="Toggle Tea Garden Audio">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
         <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
       </svg>
-      <span>Sound</span>
+      <span>Ambience</span>
     </button>
 
     <button class="hud-btn hud-btn--primary" id="openSheet" title="Skill Spec & Deploy">
@@ -221,11 +292,27 @@
         <line x1="12" y1="16" x2="12" y2="12"></line>
         <line x1="12" y1="8" x2="12.01" y2="8"></line>
       </svg>
-      <span>Install & Deploy</span>
+      <span>Skill Info</span>
     </button>
   </div>
 
-  <!-- Slide-up Modal Info Sheet -->
+  <!-- Video Modal -->
+  <div class="sheet-backdrop" id="videoBackdrop">
+    <div class="video-modal">
+      <div class="video-modal-header">
+        <div class="video-modal-title">
+          <span>🎥 Pearl &amp; Co. — Official Scroll World AI Flight (`demo.mp4`)</span>
+        </div>
+        <button class="video-close-btn" id="closeVideoBtn">&times;</button>
+      </div>
+      <video id="demoVideo" controls preload="metadata" playsinline>
+        <source src="assets/vid/demo.mp4" type="video/mp4">
+        Your browser does not support video playback.
+      </video>
+    </div>
+  </div>
+
+  <!-- Skill Modal Sheet -->
   <div class="sheet-backdrop" id="sheetBackdrop">
     <div class="sheet-modal" role="dialog" aria-modal="true">
       <div class="sheet-header">
@@ -233,29 +320,29 @@
         <button class="sheet-close" id="closeSheet">&times;</button>
       </div>
 
-      <p style="color: #63586C; line-height: 1.55; margin-top: 0;">
+      <p style="color: #6A6072; line-height: 1.55; margin-top: 0;">
         <strong>Scroll World</strong> is an agent skill for <strong>Claude Code</strong>, <strong>Codex</strong>, and any <code>SKILL.md</code>-compatible agent.
-        It orchestrates AI diorama generators (stills) and camera-flight video models (Seedance 2.0 / Kling 3.0 via Monid / Higgsfield) with seamless frame-locked seams.
+        It orchestrates AI diorama generators (GPT Image via Higgsfield) and camera-flight video models (Seedance 2.0 / Kling 3.0 via Monid / Higgsfield) with seamless frame-locked seams.
       </p>
 
-      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">1. Install as Claude Code Plugin</h4>
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #241D2B;">1. Install as Claude Code Plugin</h4>
       <div class="cmd-box">
         <code>/plugin marketplace add oso95/scroll-world<br>/plugin install scroll-world@scroll-world</code>
         <button class="copy-pill" onclick="copyText('/plugin install scroll-world@scroll-world')">Copy</button>
       </div>
 
-      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">2. Install with Vercel Skills CLI (Codex / Cursor / 20+ agents)</h4>
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #241D2B;">2. Install with Vercel Skills CLI (Codex / Cursor / 20+ agents)</h4>
       <div class="cmd-box">
         <code>npx skills add oso95/scroll-world</code>
         <button class="copy-pill" onclick="copyText('npx skills add oso95/scroll-world')">Copy</button>
       </div>
 
-      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">3. Deploy this Live Landing Page to Vercel</h4>
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #241D2B;">3. Deploy this Repository to Vercel</h4>
       <div class="deploy-badges">
-        <a href="https://vercel.com/new/clone?repository-url=https://github.com/oso95/scroll-world" target="_blank" rel="noopener noreferrer">
+        <a href="https://vercel.com/new/clone?repository-url=https://github.com/LordGrimsun/happyhome" target="_blank" rel="noopener noreferrer">
           <img src="https://vercel.com/button" alt="Deploy with Vercel" style="height: 38px;" />
         </a>
-        <a href="https://github.com/oso95/scroll-world" target="_blank" rel="noopener noreferrer" class="hud-btn">
+        <a href="https://github.com/LordGrimsun/happyhome" target="_blank" rel="noopener noreferrer" class="hud-btn">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
           </svg>
@@ -267,70 +354,96 @@
 
   <script src="scrub-engine.js"></script>
   <script>
-    // Initialize Scroll World Engine
+    // Initialize Pearl & Co. 6-Scene Flight
     mountScrollWorld(document.getElementById('world'), {
-      brand: { name: 'AURA RESERVE', href: '#top' },
-      cta: { label: 'Deploy with Vercel', href: 'https://vercel.com/new' },
-      hint: 'scroll to fly into the world',
-      diveScroll: 1.45,
-      connScroll: 0.95,
+      brand: { name: 'Pearl & Co.', href: '#top' },
+      cta: { label: 'Order now', href: '#cup' },
+      hint: 'scroll to fly into the farm',
+      diveScroll: 1.4,
+      connScroll: 0.9,
       atmosphere: true,
       nav: true,
       sections: [
         {
-          id: 'sanctuary',
-          label: 'The Sanctuary',
-          still: 'assets/scenes/scene1.svg',
-          stillMobile: 'assets/scenes/scene1-m.svg',
-          accent: '#059669',
-          scroll: 1.5,
+          id: 'farms',
+          label: 'The Farms',
+          still: 'assets/scenes/pearl-farm.svg',
+          stillMobile: 'assets/scenes/pearl-farm-m.svg',
+          accent: '#8FB98A',
+          scroll: 1.6,
           linger: 0.45,
-          eyebrow: 'Phase 01 / Living Canopy',
-          title: 'Cultivated in Biosphere Domes.',
-          body: 'Hand-tended in geodesic microclimates where morning condensation protects bioactive enzymes before solar harvest.',
-          tags: ['Single Estate Flora', 'Zero Carbon Cultivation', 'Living Microclimates']
+          eyebrow: 'FROM LEAF TO LAST SIP',
+          title: 'It starts in the hills.',
+          body: 'Fly down into terraced highland farms where we grow and hand-pick our own tea. Sun-dried, small-batch, real leaves.',
+          tags: ['Single-origin tea', 'Hand-picked', 'Small batch']
         },
         {
-          id: 'foundry',
-          label: 'The Atelier',
-          still: 'assets/scenes/scene2.svg',
-          stillMobile: 'assets/scenes/scene2-m.svg',
-          accent: '#D97706',
+          id: 'kitchen',
+          label: 'The Kitchen',
+          still: 'assets/scenes/pearl-kitchen.svg',
+          stillMobile: 'assets/scenes/pearl-kitchen-m.svg',
+          accent: '#C68B59',
           scroll: 1.5,
           linger: 0.4,
-          eyebrow: 'Phase 02 / Thermal Extraction',
-          title: 'Alembic Copper Distillation.',
-          body: 'Slow wood-fired kettles gently circulate steam through hand-hammered swan necks to condense unadulterated botanical essences.',
-          tags: ['Solid Copper Retorts', 'Low-Atmosphere Boiling', 'No Artificial Solvents']
+          eyebrow: 'SLOW FIRE & MOLASSES',
+          title: 'The Kitchen.',
+          body: 'Small-batch tapioca and artisanal brown sugar slow-simmered in copper pots every morning.',
+          tags: ['House-made Boba', 'No Preservatives', 'Slow-Simmered']
         },
         {
-          id: 'observatory',
-          label: 'The Observatory',
-          still: 'assets/scenes/scene3.svg',
-          stillMobile: 'assets/scenes/scene3-m.svg',
-          accent: '#4F46E5',
+          id: 'flagship',
+          label: 'The Flagship',
+          still: 'assets/scenes/pearl-flagship.svg',
+          stillMobile: 'assets/scenes/pearl-flagship-m.svg',
+          accent: '#7FA9C6',
+          scroll: 1.5,
+          linger: 0.4,
+          eyebrow: 'THE SPACE',
+          title: 'The Flagship.',
+          body: 'Our sunlit corner store where tea craft meets calm, poured over cracked ice and fresh organic milk.',
+          tags: ['Organic Dairy', 'Fresh Brewed', 'Custom Sweetness']
+        },
+        {
+          id: 'delivery',
+          label: 'Delivery',
+          still: 'assets/scenes/pearl-delivery.svg',
+          stillMobile: 'assets/scenes/pearl-delivery-m.svg',
+          accent: '#E28D5C',
+          scroll: 1.45,
+          linger: 0.35,
+          eyebrow: 'ON THE MOVE',
+          title: 'Delivery.',
+          body: 'Eco-friendly electric trikes buzzing through neighborhood streets, delivering chilled bottles fresh within minutes.',
+          tags: ['Zero-Emission', 'Insulated Chill Bags', 'Under 30 Min']
+        },
+        {
+          id: 'people',
+          label: 'The People',
+          still: 'assets/scenes/pearl-people.svg',
+          stillMobile: 'assets/scenes/pearl-people-m.svg',
+          accent: '#9B7EBD',
           scroll: 1.5,
           linger: 0.45,
-          eyebrow: 'Phase 03 / Refraction',
-          title: 'Molecular Light Dispersion.',
-          body: 'Every droplet is qualified by high-frequency refractive prism spectrography to ensure absolute harmonic purity and shelf stability.',
-          tags: ['Prism Certified', 'Cryogenic Harmonization', 'Laser Mass Analysis']
+          eyebrow: 'THE COMMUNITY',
+          title: 'The People.',
+          body: 'Warm smiles, community benches, conversation, and shared moments over afternoon tea breaks.',
+          tags: ['Neighborhood Hub', 'Tea Tastings', 'Outdoor Garden']
         },
         {
-          id: 'reserve',
-          label: 'The Reserve',
-          still: 'assets/scenes/scene4.svg',
-          stillMobile: 'assets/scenes/scene4-m.svg',
-          accent: '#9333EA',
+          id: 'cup',
+          label: 'The Cup',
+          still: 'assets/scenes/pearl-cup.svg',
+          stillMobile: 'assets/scenes/pearl-cup-m.svg',
+          accent: '#7C69A5',
           scroll: 1.6,
           linger: 0.5,
-          eyebrow: 'Phase 04 / The Payoff',
-          title: 'One Singular Artifact.',
-          body: 'The culmination of nature, fire, and optical precision poured into numbered crystalline vessels. Hand-waxed and sealed for posterity.',
-          tags: ['First Edition Reserve', 'Numbered Wax Seal', 'Numbered 1 of 500'],
+          eyebrow: 'THE PAYOFF',
+          title: 'One perfect cup.',
+          body: 'Slow steeped high-mountain tea, warm brown-sugar pearls, and silky milk. Crafted for the afternoon pause.',
+          tags: ['First Sip Magic', 'Golden Pearls', 'Reusable Cup'],
           cta: {
-            primary: { label: 'Claim Allocation', href: '#order' },
-            secondary: { label: 'View Skill Specs', href: 'javascript:window.openModal()' }
+            primary: { label: 'Order now', href: '#order' },
+            secondary: { label: 'Watch Video Demo', href: 'javascript:window.openVideoModal()' }
           }
         }
       ],
@@ -338,25 +451,52 @@
     });
 
     // Modal Sheet Handlers
-    const backdrop = document.getElementById('sheetBackdrop');
+    const sheetBackdrop = document.getElementById('sheetBackdrop');
     const openBtn = document.getElementById('openSheet');
     const closeBtn = document.getElementById('closeSheet');
 
     window.openModal = function() {
-      backdrop.classList.add('active');
+      sheetBackdrop.classList.add('active');
     };
 
     function closeModal() {
-      backdrop.classList.remove('active');
+      sheetBackdrop.classList.remove('active');
     }
 
     openBtn.addEventListener('click', window.openModal);
     closeBtn.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', (e) => {
-      if (e.target === backdrop) closeModal();
+    sheetBackdrop.addEventListener('click', (e) => {
+      if (e.target === sheetBackdrop) closeModal();
     });
+
+    // Video Modal Handlers
+    const videoBackdrop = document.getElementById('videoBackdrop');
+    const openVideoBtn = document.getElementById('openVideoBtn');
+    const closeVideoBtn = document.getElementById('closeVideoBtn');
+    const demoVideo = document.getElementById('demoVideo');
+
+    window.openVideoModal = function() {
+      videoBackdrop.classList.add('active');
+      demoVideo.currentTime = 0;
+      demoVideo.play().catch(() => {});
+    };
+
+    function closeVideoModal() {
+      videoBackdrop.classList.remove('active');
+      demoVideo.pause();
+    }
+
+    openVideoBtn.addEventListener('click', window.openVideoModal);
+    closeVideoBtn.addEventListener('click', closeVideoModal);
+    videoBackdrop.addEventListener('click', (e) => {
+      if (e.target === videoBackdrop) closeVideoModal();
+    });
+
     window.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+      if (e.key === 'Escape') {
+        closeModal();
+        closeVideoModal();
+      }
     });
 
     function copyText(txt) {
@@ -365,7 +505,7 @@
       });
     }
 
-    // Atmospheric Web Audio Synthesizer (Zero External Dependencies)
+    // Ambient Tea Garden Synthesizer (Zero External Dependencies)
     let audioCtx = null;
     let isPlaying = false;
     let synthNodes = [];
@@ -390,10 +530,10 @@
           audioCtx.resume();
         }
         
-        // Gentle ambient chord (warm 432Hz harmonic bed)
-        const notes = [108, 162, 216, 324];
+        // Gentle pentatonic tea garden harmonic chord (A=432Hz tuning)
+        const notes = [144, 216, 288, 384];
         const masterGain = audioCtx.createGain();
-        masterGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        masterGain.gain.setValueAtTime(0.07, audioCtx.currentTime);
         masterGain.connect(audioCtx.destination);
 
         notes.forEach((freq, idx) => {
@@ -404,16 +544,16 @@
           osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
           osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
 
-          // Subtle LFO drift
+          // Subtle natural breeze drift
           const lfo = audioCtx.createOscillator();
           const lfoGain = audioCtx.createGain();
-          lfo.frequency.setValueAtTime(0.1 + idx * 0.05, audioCtx.currentTime);
-          lfoGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+          lfo.frequency.setValueAtTime(0.08 + idx * 0.04, audioCtx.currentTime);
+          lfoGain.gain.setValueAtTime(1.2, audioCtx.currentTime);
           lfo.connect(osc.frequency);
           lfo.start();
 
           filter.type = 'lowpass';
-          filter.frequency.setValueAtTime(450, audioCtx.currentTime);
+          filter.frequency.setValueAtTime(520, audioCtx.currentTime);
 
           noteGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
 
@@ -426,7 +566,7 @@
         });
 
         isPlaying = true;
-        audioToggle.style.background = '#10B981';
+        audioToggle.style.background = '#8FB98A';
         audioToggle.style.color = '#FFFFFF';
       }
     }

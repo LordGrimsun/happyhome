@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="100%" height="100%">
+  <defs>
+    <radialGradient id="pBg" cx="62%" cy="46%" r="68%">
+      <stop offset="0%" stop-color="#FCF9F3"/>
+      <stop offset="50%" stop-color="#F5EDE0"/>
+      <stop offset="100%" stop-color="#E8DFD0"/>
+    </radialGradient>
+    <linearGradient id="cliffGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#A56A44"/>
+      <stop offset="60%" stop-color="#804D2D"/>
+      <stop offset="100%" stop-color="#5E351C"/>
+    </linearGradient>
+    <linearGradient id="terraceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A7D08C"/>
+      <stop offset="50%" stop-color="#6E9A52"/>
+      <stop offset="100%" stop-color="#4B7036"/>
+    </linearGradient>
+    <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B7BAE"/>
+      <stop offset="60%" stop-color="#6A588F"/>
+      <stop offset="100%" stop-color="#4B3A70"/>
+    </linearGradient>
+    <radialGradient id="pondGrad" cx="45%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#B8DCD8"/>
+      <stop offset="50%" stop-color="#7AAFA9"/>
+      <stop offset="100%" stop-color="#4B7873"/>
+    </radialGradient>
+    <filter id="pShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="36" stdDeviation="40" flood-color="#443224" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1920" height="1080" fill="url(#pBg)"/>
+
+  <!-- Main Floating Tea Farm Island Diorama (Center-Right) -->
+  <g transform="translate(1080, 520)" filter="url(#pShadow)">
+    
+    <!-- Island Cliff Base -->
+    <!-- Lower cliff wall segments -->
+    <path d="M -480,-40 C -490,90 -380,240 -120,290 C 140,320 380,260 490,140 C 530,90 510,0 470,-100 L 470,-20 C 470,80 360,210 120,240 C -120,240 -340,140 -430,-20 Z" fill="url(#cliffGrad)"/>
+    
+    <!-- Island Top Surface (Organic Isometric Oval) -->
+    <ellipse cx="20" cy="60" rx="490" ry="240" fill="#D7C2A3"/>
+    <ellipse cx="10" cy="50" rx="470" ry="225" fill="#E8DBC5"/>
+
+    <!-- Path from farm to house -->
+    <path d="M -180,180 Q -10,140 30,20 Q 70,-90 140,-70" fill="none" stroke="#D2BD9C" stroke-width="50" stroke-linecap="round"/>
+    <path d="M -180,180 Q -10,140 30,20 Q 70,-90 140,-70" fill="none" stroke="#FAF0DD" stroke-width="28" stroke-linecap="round"/>
+
+    <!-- Lily Pond (Right side) -->
+    <g transform="translate(230, 110)">
+      <path d="M -110,-40 C -60,-80 80,-70 120,-30 C 160,20 120,80 50,90 C -20,100 -90,70 -120,20 Z" fill="url(#pondGrad)"/>
+      <ellipse cx="20" cy="10" rx="110" ry="50" fill="none" stroke="#C8B395" stroke-width="10"/>
+      <!-- Stepping stones -->
+      <ellipse cx="-70" cy="30" rx="14" ry="8" fill="#E5D9C8"/>
+      <ellipse cx="-40" cy="50" rx="16" ry="9" fill="#D5C5B0"/>
+      <ellipse cx="0" cy="55" rx="15" ry="8" fill="#E5D9C8"/>
+      <!-- Water lilies -->
+      <circle cx="50" cy="0" r="10" fill="#4B7036" opacity="0.8"/>
+      <circle cx="52" cy="-2" r="3" fill="#F472B6"/>
+      <circle cx="80" cy="20" r="12" fill="#4B7036" opacity="0.8"/>
+      <circle cx="82" cy="18" r="4" fill="#FFFFFF"/>
+    </g>
+
+    <!-- Terraced Tea Rows (Left side) -->
+    <g transform="translate(-220, 40)">
+      <!-- Row 1 (Lowest) -->
+      <path d="M -180,40 Q -80,110 50,110 Q 110,100 130,50" fill="none" stroke="#2D4D20" stroke-width="36" stroke-linecap="round"/>
+      <path d="M -180,40 Q -80,110 50,110 Q 110,100 130,50" fill="none" stroke="url(#terraceGrad)" stroke-width="30" stroke-linecap="round"/>
+
+      <!-- Row 2 -->
+      <path d="M -190,0 Q -90,65 30,65 Q 90,55 110,15" fill="none" stroke="#2D4D20" stroke-width="36" stroke-linecap="round"/>
+      <path d="M -190,0 Q -90,65 30,65 Q 90,55 110,15" fill="none" stroke="url(#terraceGrad)" stroke-width="30" stroke-linecap="round"/>
+
+      <!-- Row 3 -->
+      <path d="M -190,-40 Q -90,20 10,20 Q 70,10 90,-25" fill="none" stroke="#2D4D20" stroke-width="36" stroke-linecap="round"/>
+      <path d="M -190,-40 Q -90,20 10,20 Q 70,10 90,-25" fill="none" stroke="url(#terraceGrad)" stroke-width="30" stroke-linecap="round"/>
+
+      <!-- Row 4 (Highest hill slope) -->
+      <path d="M -180,-80 Q -80,-25 0,-25 Q 50,-35 70,-65" fill="none" stroke="#2D4D20" stroke-width="36" stroke-linecap="round"/>
+      <path d="M -180,-80 Q -80,-25 0,-25 Q 50,-35 70,-65" fill="none" stroke="url(#terraceGrad)" stroke-width="30" stroke-linecap="round"/>
+
+      <!-- Row 5 -->
+      <path d="M -160,-120 Q -70,-70 -10,-70" fill="none" stroke="#2D4D20" stroke-width="36" stroke-linecap="round"/>
+      <path d="M -160,-120 Q -70,-70 -10,-70" fill="none" stroke="url(#terraceGrad)" stroke-width="30" stroke-linecap="round"/>
+
+      <!-- Little Tea Pickers with Conical Hats -->
+      <g transform="translate(-100, 30)">
+        <!-- Conical hat -->
+        <polygon points="0,-18 12,-6 -12,-6" fill="#E6CA9C" stroke="#A88B57" stroke-width="1"/>
+        <!-- Purple clothes -->
+        <rect x="-8" y="-6" width="16" height="14" rx="4" fill="#7C69A5"/>
+        <!-- Basket -->
+        <circle cx="12" cy="0" r="5" fill="#8B5E3C"/>
+      </g>
+      <g transform="translate(-20, -10)">
+        <polygon points="0,-18 12,-6 -12,-6" fill="#E6CA9C" stroke="#A88B57" stroke-width="1"/>
+        <rect x="-8" y="-6" width="16" height="14" rx="4" fill="#7C69A5"/>
+      </g>
+      <g transform="translate(-120, -60)">
+        <polygon points="0,-18 12,-6 -12,-6" fill="#E6CA9C" stroke="#A88B57" stroke-width="1"/>
+        <rect x="-8" y="-6" width="16" height="14" rx="4" fill="#7C69A5"/>
+      </g>
+    </g>
+
+    <!-- Tea Drying Tables (Center) -->
+    <g transform="translate(80, 20)">
+      <!-- Table 1 -->
+      <polygon points="-60,-10 20,-45 80,-15 0,20" fill="#4B7036" stroke="#8C6541" stroke-width="4"/>
+      <line x1="-50" y1="15" x2="-50" y2="40" stroke="#8C6541" stroke-width="4"/>
+      <line x1="0" y1="20" x2="0" y2="45" stroke="#8C6541" stroke-width="4"/>
+      <line x1="70" y1="-10" x2="70" y2="15" stroke="#8C6541" stroke-width="4"/>
+      <!-- Worker tending leaves -->
+      <g transform="translate(50, -40)">
+        <polygon points="0,-18 12,-6 -12,-6" fill="#E6CA9C"/>
+        <rect x="-8" y="-6" width="16" height="14" rx="4" fill="#7C69A5"/>
+      </g>
+    </g>
+
+    <!-- Japanese Cottage with Purple Roof (Upper Right) -->
+    <g transform="translate(180, -100)">
+      <!-- Main House Wall (Isometric) -->
+      <polygon points="0,50 110,0 110,-70 0,-20" fill="#E8DEC8" stroke="#5E4331" stroke-width="3"/>
+      <polygon points="0,50 -90,0 -90,-70 0,-20" fill="#FAF6EE" stroke="#5E4331" stroke-width="3"/>
+      <!-- Wooden Door and Veranda -->
+      <rect x="-55" y="-35" width="30" height="45" fill="#7E5438" stroke="#3D2617" stroke-width="2"/>
+      <rect x="25" y="-15" width="50" height="25" fill="#4A3425"/>
+      <rect x="30" y="-12" width="20" height="20" fill="#FDE047" opacity="0.6"/>
+
+      <!-- Gorgeous Purple Glazed Tile Roof -->
+      <polygon points="0,-110 130,-45 0,10 -130,-45" fill="url(#roofGrad)" stroke="#3D295A" stroke-width="3"/>
+      <!-- Ridge Tile -->
+      <line x1="0" y1="-110" x2="0" y2="10" stroke="#3D295A" stroke-width="4"/>
+
+      <!-- Chimney / Steam -->
+      <rect x="50" y="-120" width="16" height="25" fill="#804D2D"/>
+      <path d="M 58,-130 Q 70,-150 60,-170 Q 50,-190 70,-210" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+    </g>
+
+    <!-- Woven Tea Baskets (Near path foreground) -->
+    <g transform="translate(10, 160)">
+      <circle cx="-30" cy="0" r="16" fill="#8C6541"/>
+      <circle cx="-30" cy="-2" r="14" fill="#4B7036"/>
+      <circle cx="5" cy="10" r="18" fill="#8C6541"/>
+      <circle cx="5" cy="8" r="16" fill="#4B7036"/>
+      <circle cx="35" cy="0" r="15" fill="#8C6541"/>
+      <circle cx="35" cy="-2" r="13" fill="#4B7036"/>
+    </g>
+
+    <!-- Fluffy Green Trees & Wooden Post Fences -->
+    <!-- Tree behind house -->
+    <g transform="translate(100, -170)">
+      <rect x="-8" y="0" width="16" height="50" fill="#6B472E"/>
+      <circle cx="0" cy="-20" r="45" fill="#4B7036"/>
+      <circle cx="-25" cy="-35" r="35" fill="#6E9A52"/>
+      <circle cx="25" cy="-35" r="35" fill="#86B26A"/>
+    </g>
+    <!-- Tree near pond -->
+    <g transform="translate(360, -20)">
+      <rect x="-8" y="0" width="16" height="60" fill="#6B472E"/>
+      <circle cx="0" cy="-20" r="50" fill="#4B7036"/>
+      <circle cx="-20" cy="-40" r="40" fill="#6E9A52"/>
+      <circle cx="25" cy="-35" r="42" fill="#86B26A"/>
+      <!-- Wooden Fence -->
+      <line x1="40" y1="30" x2="90" y2="45" stroke="#8C6541" stroke-width="4"/>
+      <line x1="50" y1="15" x2="50" y2="45" stroke="#8C6541" stroke-width="4"/>
+      <line x1="80" y1="30" x2="80" y2="60" stroke="#8C6541" stroke-width="4"/>
+    </g>
+
+    <!-- Western Tree -->
+    <g transform="translate(-380, -90)">
+      <rect x="-6" y="0" width="12" height="40" fill="#6B472E"/>
+      <circle cx="0" cy="-15" r="35" fill="#4B7036"/>
+      <circle cx="15" cy="-30" r="28" fill="#6E9A52"/>
+    </g>
+  </g>
+</svg>

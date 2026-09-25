@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" width="100%" height="100%">
+  <defs>
+    <radialGradient id="cBgM" cx="50%" cy="42%" r="65%">
+      <stop offset="0%" stop-color="#FAF5FF"/>
+      <stop offset="50%" stop-color="#F5EDE0"/>
+      <stop offset="100%" stop-color="#E2D4E8"/>
+    </radialGradient>
+    <linearGradient id="teaGradientM" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#2D1204"/>
+      <stop offset="35%" stop-color="#D97706"/>
+      <stop offset="70%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#cBgM)"/>
+  <g transform="translate(540, 800)">
+    <polygon points="0,-120 400,20 0,160 -400,20" fill="#F3E8FF"/>
+    <ellipse cx="0" cy="20" rx="160" ry="65" fill="#FFFFFF" stroke="#C084FC" stroke-width="3"/>
+
+    <!-- Cup -->
+    <g transform="translate(0, -50)">
+      <path d="M -80,-140 L -60,90 Q 0,120 60,90 L 80,-140 Z" fill="url(#teaGradientM)"/>
+      <!-- Boba -->
+      <circle cx="-30" cy="70" r="14" fill="#1C0D02"/><circle cx="0" cy="80" r="14" fill="#1C0D02"/><circle cx="30" cy="70" r="14" fill="#1C0D02"/>
+      <!-- Lid & Straw -->
+      <ellipse cx="0" cy="-140" rx="82" ry="26" fill="#7C69A5"/>
+      <rect x="0" y="-240" width="18" height="120" rx="6" fill="#7C69A5" transform="rotate(15 0 -140)"/>
+    </g>
+  </g>
+</svg>
