@@ -1,12 +1,11 @@
 {
-  "name": "scroll-world",
+  "name": "happyhome",
   "version": "1.0.0",
   "description": "Scroll-scrubbed camera-flight landing page engine for Claude Code and Codex",
   "main": "scrub-engine.js",
   "scripts": {
     "dev": "npx serve -l 3000 .",
-    "start": "npx serve -l 3000 .",
-    "build": "node -e \"console.log('Scroll World ready for deployment.')\""
+    "start": "npx serve -l 3000 ."
   },
   "keywords": [
     "scroll-scrubbed",
