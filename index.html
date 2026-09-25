@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Scroll World — The Scroll-Scrubbed Fly-Through Landing Page Engine</title>
+  <meta name="description" content="A continuous, seamless camera flight through generated isometric worlds, scrubbed purely by scroll position." />
+
+  <!-- OpenGraph / Social Meta -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Scroll World — Fly-Through Landing Page Engine" />
+  <meta property="og:description" content="Continuous seamless camera flight through generated worlds, scrubbed by scroll position." />
+  <meta property="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='25' fill='%239333EA'/><polygon points='50,20 80,75 20,75' fill='%23FEF08A'/></svg>" />
+
+  <style>
+    /* Theme tokens matching the scene colorways */
+    :root, .sw-root {
+      --sw-bg: #F5EDE0;
+      --sw-ink: #1F1926;
+      --sw-ink-soft: #63586C;
+      --sw-accent: #9333EA;
+      --sw-font-display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Plus Jakarta Sans", system-ui, sans-serif;
+      --sw-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+    }
+
+    /* Floating Skill & Dev Toolbar */
+    .hud-controls {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 100;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .hud-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      color: #1F1926;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hud-btn:hover {
+      transform: translateY(-2px);
+      background: #FFFFFF;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+      border-color: rgba(147, 51, 234, 0.3);
+    }
+
+    .hud-btn--primary {
+      background: #1F1926;
+      color: #FFFFFF;
+      border-color: #1F1926;
+    }
+
+    .hud-btn--primary:hover {
+      background: #3B2D4A;
+      color: #FFFFFF;
+    }
+
+    /* Modal Sheet */
+    .sheet-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 12, 20, 0.45);
+      backdrop-filter: blur(8px);
+      z-index: 200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .sheet-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sheet-modal {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(100%);
+      width: min(92vw, 680px);
+      max-height: 86vh;
+      background: #FAF7F2;
+      border-radius: 28px 28px 0 0;
+      box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.2);
+      padding: 32px;
+      overflow-y: auto;
+      z-index: 201;
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+      box-sizing: border-box;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .sheet-backdrop.active .sheet-modal {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .sheet-title {
+      margin: 0;
+      font-size: 1.4rem;
+      font-family: var(--sw-font-display);
+      font-weight: 700;
+    }
+
+    .sheet-close {
+      border: 0;
+      background: rgba(0, 0, 0, 0.06);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #63586C;
+      transition: background 0.2s;
+    }
+
+    .sheet-close:hover {
+      background: rgba(0, 0, 0, 0.12);
+      color: #1F1926;
+    }
+
+    .cmd-box {
+      background: #1C1924;
+      color: #E2E8F0;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.88rem;
+      position: relative;
+      margin: 10px 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow-x: auto;
+    }
+
+    .copy-pill {
+      background: rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      border: 0;
+      border-radius: 8px;
+      padding: 5px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+      margin-left: 12px;
+    }
+
+    .copy-pill:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    .deploy-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 600px) {
+      .hud-controls {
+        bottom: 16px;
+        right: 16px;
+      }
+      .hud-btn span {
+        display: none;
+      }
+      .sheet-modal {
+        padding: 24px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="top"></div>
+  <div id="world"></div>
+
+  <!-- Ambient Sound / HUD Floating Controls -->
+  <div class="hud-controls">
+    <button class="hud-btn" id="audioToggle" title="Toggle Atmospheric Audio">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      <span>Sound</span>
+    </button>
+
+    <button class="hud-btn hud-btn--primary" id="openSheet" title="Skill Spec & Deploy">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      <span>Install & Deploy</span>
+    </button>
+  </div>
+
+  <!-- Slide-up Modal Info Sheet -->
+  <div class="sheet-backdrop" id="sheetBackdrop">
+    <div class="sheet-modal" role="dialog" aria-modal="true">
+      <div class="sheet-header">
+        <h3 class="sheet-title">Scroll World Specification</h3>
+        <button class="sheet-close" id="closeSheet">&times;</button>
+      </div>
+
+      <p style="color: #63586C; line-height: 1.55; margin-top: 0;">
+        <strong>Scroll World</strong> is an agent skill for <strong>Claude Code</strong>, <strong>Codex</strong>, and any <code>SKILL.md</code>-compatible agent.
+        It orchestrates AI diorama generators (stills) and camera-flight video models (Seedance 2.0 / Kling 3.0 via Monid / Higgsfield) with seamless frame-locked seams.
+      </p>
+
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">1. Install as Claude Code Plugin</h4>
+      <div class="cmd-box">
+        <code>/plugin marketplace add oso95/scroll-world<br>/plugin install scroll-world@scroll-world</code>
+        <button class="copy-pill" onclick="copyText('/plugin install scroll-world@scroll-world')">Copy</button>
+      </div>
+
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">2. Install with Vercel Skills CLI (Codex / Cursor / 20+ agents)</h4>
+      <div class="cmd-box">
+        <code>npx skills add oso95/scroll-world</code>
+        <button class="copy-pill" onclick="copyText('npx skills add oso95/scroll-world')">Copy</button>
+      </div>
+
+      <h4 style="margin: 20px 0 6px; font-size: 0.95rem; color: #1F1926;">3. Deploy this Live Landing Page to Vercel</h4>
+      <div class="deploy-badges">
+        <a href="https://vercel.com/new/clone?repository-url=https://github.com/oso95/scroll-world" target="_blank" rel="noopener noreferrer">
+          <img src="https://vercel.com/button" alt="Deploy with Vercel" style="height: 38px;" />
+        </a>
+        <a href="https://github.com/oso95/scroll-world" target="_blank" rel="noopener noreferrer" class="hud-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>View on GitHub</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="scrub-engine.js"></script>
+  <script>
+    // Initialize Scroll World Engine
+    mountScrollWorld(document.getElementById('world'), {
+      brand: { name: 'AURA RESERVE', href: '#top' },
+      cta: { label: 'Deploy with Vercel', href: 'https://vercel.com/new' },
+      hint: 'scroll to fly into the world',
+      diveScroll: 1.45,
+      connScroll: 0.95,
+      atmosphere: true,
+      nav: true,
+      sections: [
+        {
+          id: 'sanctuary',
+          label: 'The Sanctuary',
+          still: 'assets/scenes/scene1.svg',
+          stillMobile: 'assets/scenes/scene1-m.svg',
+          accent: '#059669',
+          scroll: 1.5,
+          linger: 0.45,
+          eyebrow: 'Phase 01 / Living Canopy',
+          title: 'Cultivated in Biosphere Domes.',
+          body: 'Hand-tended in geodesic microclimates where morning condensation protects bioactive enzymes before solar harvest.',
+          tags: ['Single Estate Flora', 'Zero Carbon Cultivation', 'Living Microclimates']
+        },
+        {
+          id: 'foundry',
+          label: 'The Atelier',
+          still: 'assets/scenes/scene2.svg',
+          stillMobile: 'assets/scenes/scene2-m.svg',
+          accent: '#D97706',
+          scroll: 1.5,
+          linger: 0.4,
+          eyebrow: 'Phase 02 / Thermal Extraction',
+          title: 'Alembic Copper Distillation.',
+          body: 'Slow wood-fired kettles gently circulate steam through hand-hammered swan necks to condense unadulterated botanical essences.',
+          tags: ['Solid Copper Retorts', 'Low-Atmosphere Boiling', 'No Artificial Solvents']
+        },
+        {
+          id: 'observatory',
+          label: 'The Observatory',
+          still: 'assets/scenes/scene3.svg',
+          stillMobile: 'assets/scenes/scene3-m.svg',
+          accent: '#4F46E5',
+          scroll: 1.5,
+          linger: 0.45,
+          eyebrow: 'Phase 03 / Refraction',
+          title: 'Molecular Light Dispersion.',
+          body: 'Every droplet is qualified by high-frequency refractive prism spectrography to ensure absolute harmonic purity and shelf stability.',
+          tags: ['Prism Certified', 'Cryogenic Harmonization', 'Laser Mass Analysis']
+        },
+        {
+          id: 'reserve',
+          label: 'The Reserve',
+          still: 'assets/scenes/scene4.svg',
+          stillMobile: 'assets/scenes/scene4-m.svg',
+          accent: '#9333EA',
+          scroll: 1.6,
+          linger: 0.5,
+          eyebrow: 'Phase 04 / The Payoff',
+          title: 'One Singular Artifact.',
+          body: 'The culmination of nature, fire, and optical precision poured into numbered crystalline vessels. Hand-waxed and sealed for posterity.',
+          tags: ['First Edition Reserve', 'Numbered Wax Seal', 'Numbered 1 of 500'],
+          cta: {
+            primary: { label: 'Claim Allocation', href: '#order' },
+            secondary: { label: 'View Skill Specs', href: 'javascript:window.openModal()' }
+          }
+        }
+      ],
+      connectors: []
+    });
+
+    // Modal Sheet Handlers
+    const backdrop = document.getElementById('sheetBackdrop');
+    const openBtn = document.getElementById('openSheet');
+    const closeBtn = document.getElementById('closeSheet');
+
+    window.openModal = function() {
+      backdrop.classList.add('active');
+    };
+
+    function closeModal() {
+      backdrop.classList.remove('active');
+    }
+
+    openBtn.addEventListener('click', window.openModal);
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) closeModal();
+    });
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt).then(() => {
+        alert('Copied to clipboard: ' + txt);
+      });
+    }
+
+    // Atmospheric Web Audio Synthesizer (Zero External Dependencies)
+    let audioCtx = null;
+    let isPlaying = false;
+    let synthNodes = [];
+
+    const audioToggle = document.getElementById('audioToggle');
+
+    function toggleAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+
+      if (isPlaying) {
+        synthNodes.forEach(node => {
+          try { node.stop(); node.disconnect(); } catch (err) {}
+        });
+        synthNodes = [];
+        isPlaying = false;
+        audioToggle.style.background = '';
+        audioToggle.style.color = '';
+      } else {
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+        
+        // Gentle ambient chord (warm 432Hz harmonic bed)
+        const notes = [108, 162, 216, 324];
+        const masterGain = audioCtx.createGain();
+        masterGain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+        masterGain.connect(audioCtx.destination);
+
+        notes.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const filter = audioCtx.createBiquadFilter();
+          const noteGain = audioCtx.createGain();
+
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+          // Subtle LFO drift
+          const lfo = audioCtx.createOscillator();
+          const lfoGain = audioCtx.createGain();
+          lfo.frequency.setValueAtTime(0.1 + idx * 0.05, audioCtx.currentTime);
+          lfoGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+          lfo.connect(osc.frequency);
+          lfo.start();
+
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(450, audioCtx.currentTime);
+
+          noteGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+
+          osc.connect(filter);
+          filter.connect(noteGain);
+          noteGain.connect(masterGain);
+
+          osc.start();
+          synthNodes.push(osc, lfo);
+        });
+
+        isPlaying = true;
+        audioToggle.style.background = '#10B981';
+        audioToggle.style.color = '#FFFFFF';
+      }
+    }
+
+    audioToggle.addEventListener('click', toggleAudio);
+  </script>
+</body>
+</html>

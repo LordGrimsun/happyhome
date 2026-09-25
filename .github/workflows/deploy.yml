@@ -1,0 +1,37 @@
+name: CI & Deployment Check
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate Files & Syntax
+        run: |
+          node -c scrub-engine.js
+          echo "scrub-engine.js validated successfully"
+          test -f index.html && echo "index.html exists"
+          test -f vercel.json && echo "vercel.json exists"
+          npm run build

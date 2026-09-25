@@ -1,0 +1,22 @@
+{
+  "name": "scroll-world",
+  "version": "1.0.0",
+  "description": "Scroll-scrubbed camera-flight landing page engine for Claude Code and Codex",
+  "main": "scrub-engine.js",
+  "scripts": {
+    "dev": "npx serve -l 3000 .",
+    "start": "npx serve -l 3000 .",
+    "build": "node -e \"console.log('Scroll World ready for deployment.')\""
+  },
+  "keywords": [
+    "scroll-scrubbed",
+    "landing-page",
+    "camera-flight",
+    "claude-skill",
+    "codex-skill",
+    "diorama",
+    "interactive-web"
+  ],
+  "author": "oso95",
+  "license": "MIT"
+}

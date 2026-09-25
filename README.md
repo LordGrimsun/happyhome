@@ -1,14 +1,45 @@
 # scroll-world
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/oso95/scroll-world)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![CI](https://github.com/oso95/scroll-world/actions/workflows/deploy.yml/badge.svg)](.github/workflows/deploy.yml)
 
 https://github.com/user-attachments/assets/b08e641e-985b-4bd4-83ff-6750272d0c37
-
 
 An agent skill — for Claude Code, Codex, and any `SKILL.md`-compatible agent — that
 builds an immersive, **scroll-scrubbed "fly through the world" landing page** for any industry or brand — the kind where, as you scroll, a camera flies
 from *outside* each scene *into* its interior, then flows on to the next scene with **no
 cuts**. One continuous connected flight through a little generated world (think the Emons
 logistics site, applied to whatever you want).
+
+---
+
+## ⚡ Quick Start & Live Deployment
+
+This repository includes both the **AI Agent Skill** and a **production-ready live interactive showcase** configured for zero-setup deployment to Vercel and GitHub Pages.
+
+### 1. Deploy directly to Vercel
+
+Click below to fork and deploy your own live instance in under 60 seconds:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/oso95/scroll-world)
+
+### 2. Run locally
+
+```bash
+# Clone the repository
+git clone https://github.com/oso95/scroll-world.git
+cd scroll-world
+
+# Start a local static server
+npm run dev
+# or
+npx serve -l 3000 .
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to experience the scroll-scrubbed camera flight.
+
+---
 
 ## Install
 
@@ -92,18 +123,31 @@ When invoked, the skill:
 3. **Wires it up** — a config-driven scroll engine that plays the whole chain as one
    flight, serving the portrait clips and posters automatically on phones.
 
-## What's in the skill
+## What's in the repo
 
 ```
-skills/scroll-world/
-├── SKILL.md                    the procedure + the seam rule + gotchas
-└── references/
-    ├── prompts.md              intake checklist + every Higgsfield prompt template
-    ├── pipeline.md             copy-paste batch scripts (generate → frames → connectors → encode)
-    ├── scrub-engine.js         portable, config-driven scrub engine (blob-seek, lazy load, seam crossfade)
-    ├── index-template.html     a minimal standalone page that mounts the engine
-    └── knockout.py             background knockout for floating scenes
+scroll-world/
+├── index.html                  live showcase landing page (Vercel ready)
+├── scrub-engine.js             portable, zero-dependency scroll-scrub engine
+├── vercel.json                 Vercel static routing & cache configuration
+├── package.json                scripts for local development and CI
+├── assets/
+│   └── scenes/                 sample vector diorama scenes (desktop & mobile)
+├── skills/
+│   └── scroll-world/
+│       ├── SKILL.md            procedure + seam rule + gotchas
+│       └── references/
+│           ├── prompts.md      intake checklist + Higgsfield prompt templates
+│           ├── pipeline.md     batch scripts (generate → frames → connectors → encode)
+│           ├── scrub-engine.js portable scrub engine
+│           ├── index-template.html minimal standalone starter
+│           └── knockout.py     background knockout for floating scenes
+└── .claude-plugin/             Claude Code marketplace and plugin metadata
 ```
+
+## GitHub & Vercel Deployment
+
+For a detailed walkthrough on setting up your own GitHub repository and deploying to Vercel with custom domains, see [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ## Notes
 
@@ -113,7 +157,7 @@ skills/scroll-world/
   pricing is per-token and printed per run; Higgsfield pricing isn't exposed by its
   CLI, so the skill calibrates against your live balance. Either way the estimated
   total is stated before spending.
-- The generated `.mp4`/`.webp` assets are produced per project; they're not shipped here.
+- The generated `.mp4`/`.webp` assets are produced per project. This repository includes built-in vector dioramas so the demo works instantly upon cloning or deploying.
 
 ## Star History
 
